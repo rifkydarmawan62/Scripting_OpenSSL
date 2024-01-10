@@ -1,0 +1,15 @@
+<details open>
+    <summary><strong>Deskripsi</strong></summary>
+    <p>Program untuk membuat sertifikat SSL/TLS (Segera Hadir), kunci keamanan private dan publik melalui perintah OpenSSL</p>
+</details>
+<details open>
+    <summary><strong>Instalasi</strong></summary>
+    <p>Untuk Windows : </p>
+    <ol type="1">
+        <li>Download untuk Windows (Disarankan 64 bit) : <a href="https://slproweb.com/products/Win32OpenSSL.html" target="_blank">https://slproweb.com/products/Win32OpenSSL.html</a></li>
+        <li>Tempatkan direktori C:\Program Files\OpenSSL-Win64\bin pada environment variable</li>
+        <li>Download repository GitHub melalui perintah Git :<br><code>git clone https://github.com/rifkydarmawan62/SSL_dan_TLS</code></li>
+        <li>Ganti direktori :<br><code>cd SSL_dan_TLS</code></li>
+        <li>Jalankan file Python :<br><code>py Buat_Kunci_Keamanan.py</code></li>
+    </ol>
+</details>
