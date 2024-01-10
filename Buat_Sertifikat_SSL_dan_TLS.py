@@ -58,7 +58,7 @@ GitHub : rifkydarmawan62\n
                         alur = f"{Fore.RESET}beranda > buat kunci private RSA"
                         langkah = " > langkah 1\n\n"
                         __bersihkan_layar(alur + langkah)
-                        direktori_output_file = __tekan_alt_tab_untuk_file("simpan", "*Pilih lokasi file kunci private RSA disimpan", [("File Biner", "*.bin"), ("Distinguished Encoding Rules", "*.der"), ("Privacy Enhanced Mail", "*.pem"),("Semua File", "*.*")], ".pem", inisial_nama_file = ".pem")
+                        direktori_output_file = __tekan_alt_tab_untuk_file("simpan", "*Pilih lokasi file kunci private RSA disimpan", [("Privacy Enhanced Mail", "*.pem"), ("Semua File", "*.*")], ".pem", inisial_nama_file = ".pem")
                         if direktori_output_file:
                             perintah_openssl = f"openssl genrsa -out \"{direktori_output_file}\""
                             langkah = " > langkah 2\n\n"
@@ -82,6 +82,76 @@ GitHub : rifkydarmawan62\n
                                 print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!\n{Fore.LIGHTBLUE_EX}defult = 0 digunakan")
                             langkah = " > langkah 4\n\n"
                             __bersihkan_layar(alur + langkah)
+                            print(f"{Fore.RESET}[-] {Fore.LIGHTRED_EX}keluar (Ctrl + C)\n{Fore.RESET}[1] input kata sandi (Opsional) ({Fore.LIGHTRED_EX}Kemungkinan Memiliki Bug{Fore.RESET})\n[2] pilih file kata sandi (Opsional)\n[>] lewati langkah 4 (Enter)")
+                            argumen = input("Pilih nomor : ").strip()
+                            match argumen:
+                                case "-":
+                                    __menu_beranda = False
+                                    __tutup_program()
+                                case "1":
+                                    kata_sandi = getpass("Masukkan kata sandi : ")
+                                    if kata_sandi:
+                                        if system() == "Linux":
+                                            #kata_sandi = kata_sandi.replace(" ", "\\ ")
+                                            kata_sandi = kata_sandi.replace("'", "\\'")
+                                            kata_sandi = kata_sandi.replace("\"", "\\\"")
+                                            #kata_sandi = kata_sandi.replace("&", "\\&")
+                                            kata_sandi = kata_sandi.replace("~", "\\~")
+                                            kata_sandi = kata_sandi.replace("?", "\\?")
+                                            kata_sandi = kata_sandi.replace("*", "\\*")
+                                            kata_sandi = kata_sandi.replace("|", "\\|")
+                                            kata_sandi = kata_sandi.replace("[", "\\[")
+                                            kata_sandi = kata_sandi.replace("]", "\\]")
+                                            kata_sandi = kata_sandi.replace("(", "\\(")
+                                            kata_sandi = kata_sandi.replace(")", "\\)")
+                                            kata_sandi = kata_sandi.replace("<", "\\<")
+                                            kata_sandi = kata_sandi.replace(">", "\\>")
+                                            kata_sandi = kata_sandi.replace("#", "\\#")
+                                            kata_sandi = kata_sandi.replace("$", "\\$")
+                                            kata_sandi = kata_sandi.replace("!", "\\!")
+                                        elif system() == "Windows":
+                                            argumen = input("Terminal yang anda gunakan saat ini [cmd|powershell] (default = cmd) : ").lower().strip()
+                                            match argumen:
+                                                case "powershell":
+                                                    kata_sandi = kata_sandi.replace("`", "``")
+                                                    kata_sandi = kata_sandi.replace("\"", "`\"")
+                                                    kata_sandi = kata_sandi.replace("'", "`'")
+                                                    kata_sandi = kata_sandi.replace("$", "`$")
+                                                    kata_sandi = kata_sandi.replace("%", "`%")
+                                                    kata_sandi = kata_sandi.replace("[", "`[")
+                                                    kata_sandi = kata_sandi.replace("]", "`]")
+                                                    kata_sandi = kata_sandi.replace("|", "`|")
+                                                    kata_sandi = kata_sandi.replace("(", "`(")
+                                                    kata_sandi = kata_sandi.replace(")", "`)")
+                                                    kata_sandi = kata_sandi.replace("*", "`*")
+                                                    kata_sandi = kata_sandi.replace("{", "`{")
+                                                    kata_sandi = kata_sandi.replace("}", "`}")
+                                                    #kata_sandi = kata_sandi.replace(" ", "` ")
+                                                    kata_sandi = kata_sandi.replace(";", "`;")
+                                                case _:
+                                                    kata_sandi = kata_sandi.replace("^", "^^")
+                                                    #kata_sandi = kata_sandi.replace(" ", "^ ")
+                                                    kata_sandi = kata_sandi.replace("%", "^%")
+                                                    kata_sandi = kata_sandi.replace("&", "^&")
+                                                    kata_sandi = kata_sandi.replace("<", "^<")
+                                                    kata_sandi = kata_sandi.replace(">", "^>")
+                                                    kata_sandi = kata_sandi.replace("(", "^(")
+                                                    kata_sandi = kata_sandi.replace(")", "^)")
+                                                    kata_sandi = kata_sandi.replace("|", "^|")
+                                                    kata_sandi = kata_sandi.replace("\"", "^\"")
+                                        perintah_openssl += f" -passout pass:\"{kata_sandi}\""
+                                    else:
+                                        print(f"{Fore.LIGHTRED_EX}Input Kata Sandi Kosong!")
+                                case "2":
+                                    direktori_file_kata_sandi = __tekan_alt_tab_untuk_file("pilih", "Pilih file kata sandi (Opsional)", [("Dokumen Teks", "*.txt"), ("Semua File", "*.*")], ".txt")
+                                    if direktori_file_kata_sandi:
+                                        perintah_openssl += f" -passout file:\"{direktori_file_kata_sandi}\""
+                                case ">":
+                                    pass
+                                case _:
+                                    print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!")
+                            langkah = " > langkah 5\n\n"
+                            __bersihkan_layar(alur + langkah)
                             bilangan_prima = input("Masukkan bilangan prima untuk kunci RSA [1 - 15] (Opsional) : ").strip()
                             if bilangan_prima.isdigit():
                                 bilangan_prima = int(bilangan_prima)
@@ -93,7 +163,7 @@ GitHub : rifkydarmawan62\n
                                 pass
                             else:
                                 print(f"{Fore.LIGHTRED_EX}Input Harus Berupa Angka!")
-                            langkah = " > langkah 5\n\n"
+                            langkah = " > langkah 6\n\n"
                             __bersihkan_layar(alur + langkah)
                             mode_tradisional = input("Gunakan kunci private RSA tradisional PKCS#1 [0|1] (default = 0) : ").strip()
                             if mode_tradisional == "1":
@@ -102,13 +172,13 @@ GitHub : rifkydarmawan62\n
                                 pass
                             else:
                                 print(f"{Fore.LIGHTRED_EX}Input Tidak Valid\n{Fore.LIGHTBLUE_EX}default = 0 digunakan")
-                            langkah = " > langkah 6\n\n"
+                            langkah = " > langkah 7\n\n"
                             __bersihkan_layar(alur + langkah)
                             direktori_output_file_data_acak = __tekan_alt_tab_untuk_file("simpan", "Lokasi file untuk menyimpan data acak (Opsional)", [("File Biner", ".bin"), ("Semua File", "*.*")], ".bin", inisial_nama_file = ".bin")
                             if direktori_output_file_data_acak:
                                 perintah_openssl += f" -writerand \"{direktori_output_file_data_acak}\""
                             perintah_openssl += " -verbose"
-                            langkah = " > langkah 7\n\n"
+                            langkah = " > langkah 8\n\n"
                             __bersihkan_layar(alur + langkah)
                             ukuran_bit = input("Masukkan ukuran bit kunci RSA [>= 512] (Opsional) : ").strip()
                             if ukuran_bit.isdigit():
