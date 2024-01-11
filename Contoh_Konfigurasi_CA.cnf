@@ -1,0 +1,28 @@
+[ ca ]
+default_ca      = CA_default            # sesi CA default
+
+[ CA_default ]
+dir            = ./demoCA               # direktori saat ini
+database       = $dir/index.txt         # database untuk menyimpan informasi sertifikat
+new_certs_dir  = $dir/newcerts          # direktori sertifikat baru
+
+certificate    = $dir/cacert.pem        # direktori sertifikat CA
+serial         = $dir/serial            # direktori nomor serial sertifikat
+#rand_serial    = yes                   # gunakan serial acak
+private_key    = $dir/private/cakey.pem # direktori kunci private CA
+default_days   = 365                    # masa aktif sertifikat
+default_crl_days= 30                    # masa sebelum CRL selanjutnya
+default_md     = md5                    # algoritma hash
+policy         = policy_any             # kebijakan default
+email_in_dn    = no                     # tambahkan email ke sertifikat DN
+name_opt       = ca_default             # opsi nama subjek
+cert_opt       = ca_default             # opsi sertifikat
+copy_extensions = none                  # salin ekstensi dari request
+
+[ policy_any ]
+countryName            = supplied
+stateOrProvinceName    = opsional
+organizationName       = opsional
+organizationalUnitName = opsional
+commonName             = supplied
+emailAddress           = opsional
