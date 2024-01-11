@@ -14,7 +14,7 @@ else:
         print(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru")
         DIREKTORI_FILE_KUNCI_PRIVATE = pilih_file(title = "*Pilih file kunci private", filetypes = [("Privacy Enhanced Mail", "*.pem"), ("Distinguished Encoding Rules", "*.der"), ("Semua File", "*.*")])
         if DIREKTORI_FILE_KUNCI_PRIVATE:
-            DIREKTORI_FILE_CSR = simpan_file(title = "*Pilih lokasi file Certificate Signing Requests (CSR) disimpan", filetypes = [("Privacy Enhanced Mail", "*.pem")], defaultextension = ".pem", confirmoverwrite = True)
+            DIREKTORI_FILE_CSR = simpan_file(title = "*Pilih lokasi file Certificate Signing Requests (CSR) disimpan", filetypes = [("Privacy Enhanced Mail", "*.pem")], defaultextension = ".pem", confirmoverwrite = True, initialfile = ".pem", initialdir = "/".join(DIREKTORI_FILE_KUNCI_PRIVATE.split("/")[:-1]))
             if DIREKTORI_FILE_CSR:
                 print(f"{Fore.LIGHTGREEN_EX}File Kunci Private = \"{DIREKTORI_FILE_KUNCI_PRIVATE}\"\nFile CSR disimpan = \"{DIREKTORI_FILE_CSR}\"")
                 PERINTAH = f"openssl req -new -key \"{DIREKTORI_FILE_KUNCI_PRIVATE}\" -verbose -out \"{DIREKTORI_FILE_CSR}\""
