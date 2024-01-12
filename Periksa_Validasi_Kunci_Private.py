@@ -18,7 +18,7 @@ else:
         try:
             run(PERINTAH, shell = True, check = True)
         except CalledProcessError:
-            print(f"{Fore.RED}Kunci \"{DIREKTORI_FILE}\" tidak valid!")
+            print(f"{Fore.RED}File kunci private \"{DIREKTORI_FILE}\" tidak valid!")
         try:
             getpass(f"{Fore.RESET}Tekan Enter untuk keluar")
         except KeyboardInterrupt:
