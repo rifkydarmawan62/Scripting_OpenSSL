@@ -1,6 +1,6 @@
 <details open>
     <summary><strong>Deskripsi</strong></summary>
-    <p>Program untuk membuat sertifikat SSL/TLS (Segera Hadir), kunci keamanan private dan publik melalui perintah OpenSSL</p>
+    <p>Program untuk membuat Self Signed Certificate, kunci keamanan private dan publik melalui perintah OpenSSL</p>
 </details>
 <details open>
     <summary><strong>Instalasi</strong></summary>
