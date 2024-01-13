@@ -32,4 +32,4 @@ else:
         else:
             print(f"{Fore.LIGHTRED_EX}File kunci private tidak dipilih!{Fore.RESET}")
     except KeyboardInterrupt:
-        showerror("Error!", "Interupsi Keyboard Ctrl + C!\nProgram ditutup")
+        print(f"{Fore.LIGHTRED_EX}Interupsi Keyboard Ctrl + C!\nProgram ditutup{Fore.RESET}")
