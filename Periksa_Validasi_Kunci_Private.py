@@ -11,7 +11,7 @@ except CalledProcessError:
     showerror("Gagal menjalankan aplikasi", "Perintah OpenSSL Tidak Ditemukan\nSilahkan download OpenSSL dari openssl.org dan atur konfigurasi file agar perintah OpenSSL dapat dijalankan")
 else:
     print(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru")
-    DIREKTORI_FILE = pilih_file(title = "*Pilih file untuk validasi konsistensi kunci", filetypes = [("Privacy Enhanced Mail", "*.pem"), ("Distinguished Encoding Rules", "*.der"), ("Personal Information Exchange", "*.pvk"), ("Semua File", "*.*")])
+    DIREKTORI_FILE = pilih_file(title = "*Pilih file untuk validasi kunci private", filetypes = [("Privacy Enhanced Mail", "*.pem"), ("Distinguished Encoding Rules", "*.der"), ("Personal Information Exchange", "*.pvk"), ("Semua File", "*.*")])
     if DIREKTORI_FILE:
         PERINTAH = f"openssl pkey -check -in \"{DIREKTORI_FILE}\""
         print(f"{Fore.LIGHTYELLOW_EX}Menjalankan perintah [{PERINTAH}] ...{Fore.LIGHTBLUE_EX}")
