@@ -37,7 +37,7 @@ else:
 default_ca      = CA_default
 
 [ CA_default ]
-dir            = {getcwd()}
+dir            = {getcwd().replace("\\", "/")}
 database       = $dir/index.txt
 new_certs_dir  = $dir
 
