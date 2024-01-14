@@ -3,7 +3,8 @@ from tkinter.filedialog import askopenfilename as pilih_file, asksaveasfilename 
 from subprocess import run, CalledProcessError
 from colorama import Fore
 from tkinter.messagebox import showerror
-from os.path import curdir
+from os import getcwd
+
 print(f"{Fore.LIGHTYELLOW_EX}Memeriksa instalasi OpenSSL melalui CLI ...{Fore.LIGHTBLUE_EX}")
 try:
     run("openssl version", shell = True, check = True)
@@ -28,15 +29,15 @@ else:
                     else:
                         DIREKTORI_FILE_SERTIFIKAT = simpan_file(title = "*Pilih lokasi file Self Sign Certificate disimpan", filetypes = [("Privacy Enhanced Mail", "*.pem")], initialfile = ".pem", initialdir = "/".join(DIREKTORI_FILE_CSR.split("/")[:-1]), defaultextension = ".pem", confirmoverwrite = True)
                         if DIREKTORI_FILE_SERTIFIKAT:
-                            DIREKTORI_FILE_KONFIGURASI = f"{curdir}/konfigurasi.cnf"
-                            with open(f"{curdir}/index.txt", "w") as file_database:
+                            DIREKTORI_FILE_KONFIGURASI = f"{getcwd()}/konfigurasi.cnf"
+                            with open(f"{getcwd()}/index.txt", "w") as file_database:
                                 pass
                             with open(DIREKTORI_FILE_KONFIGURASI, "w") as file_konfigurasi:
                                 file_konfigurasi.write(f"""[ ca ]
 default_ca      = CA_default
 
 [ CA_default ]
-dir            = {curdir}
+dir            = {getcwd()}
 database       = $dir/index.txt
 new_certs_dir  = $dir
 
