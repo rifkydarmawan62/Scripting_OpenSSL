@@ -17,9 +17,9 @@ if system().lower() == "windows":
             menu_tipe_unduhan : bool = True; unduhan_32_bit : bool | None = None
             try:
                 while menu_tipe_unduhan:
-                    bersihkan_layar("Pilih Tipe Unduhan OpenSSL\n[-] keluar (Ctrl + C)\n[0] bersihkan layar\n[1] 32 bit\n[2] 64 bit")
+                    bersihkan_layar(f"{Fore.RESET}Pilih Tipe Unduhan OpenSSL\n[-] keluar (Ctrl + C)\n[0] bersihkan layar\n[1] 32 bit\n[2] 64 bit")
                     while True:
-                        argumen = input("Pilih nomor : ")
+                        argumen = input(f"{Fore.RESET}Pilih nomor : ")
                         match argumen.strip():
                             case "-":
                                 menu_tipe_unduhan = False
@@ -60,6 +60,7 @@ if system().lower() == "windows":
                 if exists(LOKASI_UNDUHAN):
                     remove(LOKASI_UNDUHAN)
             else:
+                print(f"{Fore.LIGHTGREEN_EX}OpenSSL berhasil diunduh di direktori \"{LOKASI_UNDUHAN}\"{Fore.RESET}")
                 print(f"Menjalankan perintah instalasi OpenSSL {Fore.BLACK}{Back.LIGHTYELLOW_EX}\"{LOKASI_UNDUHAN}\"{Fore.RESET}{Back.RESET} ...")
                 try:
                     run(f"\"{LOKASI_UNDUHAN}\"", shell = True, check = True)
