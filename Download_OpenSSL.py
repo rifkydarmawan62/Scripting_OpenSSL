@@ -2,8 +2,6 @@ from colorama import Fore, Back
 from subprocess import run, CalledProcessError
 from platform import system, architecture
 from tkinter.filedialog import askdirectory
-from os.path import exists
-from os import remove
 
 if system().lower() == "windows":
     def bersihkan_layar(teks : str | None = None):
@@ -43,28 +41,19 @@ if system().lower() == "windows":
             if unduhan_32_bit:
                 URL = "https://slproweb.com/download/Win32OpenSSL-3_2_0.msi"
                 LOKASI_UNDUHAN = f"{DIREKTORI_FOLDER}\\{URL.split("/")[-1]}"
-                PERINTAH = f"bitsadmin /transfer \"Mengunduh_OpenSSL_32_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\""
+                PERINTAH = f"bitsadmin /transfer \"Mengunduh_OpenSSL_32_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
             else:
                 URL = "https://slproweb.com/download/Win64OpenSSL-3_2_0.msi"
                 LOKASI_UNDUHAN = f"{DIREKTORI_FOLDER}\\{URL.split("/")[-1]}"
-                PERINTAH = f"bitsadmin /transfer \"Mengunduh_OpenSSL_64_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\""
-            print(f"Menjalankan perintah Windows Command Prompt {Fore.BLACK}{Back.LIGHTYELLOW_EX}{PERINTAH}{Fore.RESET}{Back.RESET} ...")
+                PERINTAH = f"bitsadmin /transfer \"Mengunduh_OpenSSL_64_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
+            print(f"{Fore.YELLOW}Menjalankan perintah Windows Command Prompt {Fore.BLACK}{Back.LIGHTBLUE_EX}{PERINTAH}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
             try:
                 run(PERINTAH, shell = True, check = True)
             except CalledProcessError:
-                print(f"{Fore.LIGHTRED_EX}Gagal mengunduh OpenSSL!{Fore.RESET}")
-                if exists(LOKASI_UNDUHAN):
-                    remove(LOKASI_UNDUHAN)
+                print(f"{Fore.LIGHTRED_EX}Gagal mengunduh atau menjalankan instalasi OpenSSL!{Fore.RESET}")
             except KeyboardInterrupt:
-                print(f"{Fore.LIGHTRED_EX}Unduhan OpenSSL dihentikan!{Fore.RESET}")
-                if exists(LOKASI_UNDUHAN):
-                    remove(LOKASI_UNDUHAN)
+                print(f"{Fore.LIGHTRED_EX}Unduhan atau instalasi OpenSSL dihentikan!{Fore.RESET}")
             else:
-                print(f"{Fore.LIGHTGREEN_EX}OpenSSL berhasil diunduh di direktori \"{LOKASI_UNDUHAN}\"{Fore.RESET}")
-                print(f"Menjalankan perintah instalasi OpenSSL {Fore.BLACK}{Back.LIGHTYELLOW_EX}\"{LOKASI_UNDUHAN}\"{Fore.RESET}{Back.RESET} ...")
-                try:
-                    run(f"\"{LOKASI_UNDUHAN}\"", shell = True, check = True)
-                except CalledProcessError:
-                    print(f"{Fore.LIGHTRED_EX}Gagal menjalankan instalasi OpenSSL!{Fore.RESET}")
+                print(f"{Fore.LIGHTGREEN_EX}Berhasil menjalankan instalasi OpenSSL{Fore.RESET}")
     else:
         print(f"{Fore.LIGHTRED_EX}Unduhan instalasi OpenSSL tidak disimpan!{Fore.RESET}")
