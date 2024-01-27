@@ -41,11 +41,11 @@ if system().lower() == "windows":
             if unduhan_32_bit:
                 URL = "https://slproweb.com/download/Win32OpenSSL-3_2_0.msi"
                 LOKASI_UNDUHAN = f"{DIREKTORI_FOLDER}\\{URL.split("/")[-1]}"
-                PERINTAH = f"bitsadmin /transfer \"Mengunduh_OpenSSL_32_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
+                PERINTAH = f"bitsadmin /transfer \"Mengunduh_Instalasi_OpenSSL_32_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
             else:
                 URL = "https://slproweb.com/download/Win64OpenSSL-3_2_0.msi"
                 LOKASI_UNDUHAN = f"{DIREKTORI_FOLDER}\\{URL.split("/")[-1]}"
-                PERINTAH = f"bitsadmin /transfer \"Mengunduh_OpenSSL_64_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
+                PERINTAH = f"bitsadmin /transfer \"Mengunduh_Instalasi_OpenSSL_64_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
             print(f"{Fore.YELLOW}Menjalankan perintah Windows Command Prompt {Fore.BLACK}{Back.LIGHTBLUE_EX}{PERINTAH}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
             try:
                 run(PERINTAH, shell = True, check = True)
