@@ -1,30 +1,32 @@
 from subprocess import run, CalledProcessError
-from tkinter.messagebox import showerror
 from tkinter.filedialog import askopenfilename as pilih_file, asksaveasfilename as simpan_file
-from getpass import getpass
 from colorama import Fore, Back
 from os.path import exists
 from os import remove
+from .modul import bersihkan_layar
 
-print(f"{Fore.LIGHTYELLOW_EX}Memeriksa instalasi OpenSSL melalui CLI ...{Fore.RESET}")
+bersihkan_layar(f"{Fore.LIGHTYELLOW_EX}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
 try:
     run("openssl version", shell = True, check = True)
 except CalledProcessError:
-    showerror("Gagal menjalankan aplikasi", "Perintah OpenSSL Tidak Ditemukan\nSilahkan download OpenSSL dari openssl.org dan atur konfigurasi file agar perintah OpenSSL dapat dijalankan")
+    print(f"{Fore.LIGHTRED_EX}Perintah OpenSSL Tidak Ditemukan!{Fore.RESET}")
 else:
+    print(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru{Fore.RESET}")
     try:
-        print(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru{Fore.RESET}")
         DIREKTORI_FILE_KUNCI_PRIVATE = pilih_file(title = "*Pilih file kunci private", filetypes = [("Privacy Enhanced Mail", "*.pem"), ("Distinguished Encoding Rules", "*.der"), ("Semua File", "*.*")])
         if DIREKTORI_FILE_KUNCI_PRIVATE:
+            PERINTAH_VALIDASI = f"openssl pkey -check -in \"{DIREKTORI_FILE_KUNCI_PRIVATE}\" -noout"
+            print(f"{Fore.YELLOW}Menjalankan perintah validasi {Fore.LIGHTYELLOW_EX}{Back.BLUE}{PERINTAH_VALIDASI}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
             try:
-                run(f"openssl pkey -check -in \"{DIREKTORI_FILE_KUNCI_PRIVATE}\"", shell = True, check = True, capture_output = True)
+                run(PERINTAH_VALIDASI, shell = True, check = True)
             except CalledProcessError:
-                print(f"{Fore.RED}File kunci private \"{DIREKTORI_FILE_KUNCI_PRIVATE}\" tidak valid!{Fore.RESET}")
+                print(f"{Fore.LIGHTRED_EX}Kunci private tidak valid!{Fore.RESET}")
             else:
+                print(f"{Fore.LIGHTGREEN_EX}Kunci private valid!\n{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru{Fore.RESET}")
                 DIREKTORI_FILE_CSR = simpan_file(title = "*Pilih lokasi file Certificate Signing Requests (CSR) disimpan", filetypes = [("Privacy Enhanced Mail", "*.pem")], defaultextension = ".pem", confirmoverwrite = True, initialfile = ".pem", initialdir = "/".join(DIREKTORI_FILE_KUNCI_PRIVATE.split("/")[:-1]))
                 if DIREKTORI_FILE_CSR:
                     PERINTAH = f"openssl req -new -key \"{DIREKTORI_FILE_KUNCI_PRIVATE}\" -verbose -out \"{DIREKTORI_FILE_CSR}\""
-                    print(f"Menjalankan perintah {Fore.BLACK}{Back.LIGHTYELLOW_EX}{PERINTAH}{Fore.RESET}{Back.RESET} ...")
+                    print(f"{Fore.YELLOW}Menjalankan perintah {Fore.LIGHTYELLOW_EX}{Back.BLUE}{PERINTAH}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
                     try:
                         run(PERINTAH, shell = True, check = True)
                     except CalledProcessError:
@@ -33,10 +35,6 @@ else:
                             remove(DIREKTORI_FILE_CSR)
                     else:
                         print(f"{Fore.LIGHTGREEN_EX}CSR dibuat di direktori \"{DIREKTORI_FILE_CSR}\"{Fore.RESET}")
-                    try:
-                        getpass(f"{Fore.RESET}Tekan Enter untuk keluar")
-                    except KeyboardInterrupt:
-                        pass
                 else:
                     print(f"{Fore.LIGHTRED_EX}File CSR tidak disimpan!{Fore.RESET}")
         else:

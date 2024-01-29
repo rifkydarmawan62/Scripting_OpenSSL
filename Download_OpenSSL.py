@@ -2,12 +2,9 @@ from colorama import Fore, Back
 from subprocess import run, CalledProcessError
 from platform import system, architecture
 from tkinter.filedialog import askdirectory
+from .modul import bersihkan_layar
 
-if system().lower() == "windows":
-    def bersihkan_layar(teks : str | None = None):
-        run("cls", shell = True)
-        if teks:
-            print(teks)
+if system() == "Windows":
     bersihkan_layar(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru{Fore.RESET}")
     DIREKTORI_FOLDER = askdirectory(title = "Pilih lokasi file unduhan OpenSSL disimpan").replace("/", "\\")
     if DIREKTORI_FOLDER:
@@ -46,7 +43,7 @@ if system().lower() == "windows":
                 URL = "https://slproweb.com/download/Win64OpenSSL-3_2_0.msi"
                 LOKASI_UNDUHAN = f"{DIREKTORI_FOLDER}\\{URL.split("/")[-1]}"
                 PERINTAH = f"bitsadmin /transfer \"Mengunduh_Instalasi_OpenSSL_64_bit\" /download /priority FOREGROUND \"{URL}\" \"{LOKASI_UNDUHAN}\" && \"{LOKASI_UNDUHAN}\""
-            print(f"{Fore.YELLOW}Menjalankan perintah Windows Command Prompt {Fore.BLACK}{Back.LIGHTBLUE_EX}{PERINTAH}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
+            print(f"{Fore.YELLOW}Menjalankan perintah Windows Command Prompt {Fore.LIGHTYELLOW_EX}{Back.BLUE}{PERINTAH}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
             try:
                 run(PERINTAH, shell = True, check = True)
             except CalledProcessError:
