@@ -5,7 +5,7 @@ from os.path import exists
 from os import remove
 from modul import bersihkan_layar
 
-bersihkan_layar(f"{Fore.LIGHTYELLOW_EX}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
+bersihkan_layar(f"{Fore.YELLOW}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
 try:
     run("openssl version", shell = True, check = True)
 except CalledProcessError:
