@@ -1,7 +1,7 @@
 from subprocess import run, CalledProcessError
 from tkinter.filedialog import askopenfilename as pilih_file
 from colorama import Fore, Back
-from .modul import bersihkan_layar
+from modul import bersihkan_layar
 
 bersihkan_layar(f"{Fore.YELLOW}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
 try:

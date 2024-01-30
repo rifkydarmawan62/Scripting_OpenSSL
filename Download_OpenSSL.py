@@ -2,7 +2,7 @@ from colorama import Fore, Back
 from subprocess import run, CalledProcessError
 from platform import system, architecture
 from tkinter.filedialog import askdirectory
-from .modul import bersihkan_layar
+from modul import bersihkan_layar
 
 if system() == "Windows":
     bersihkan_layar(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru{Fore.RESET}")

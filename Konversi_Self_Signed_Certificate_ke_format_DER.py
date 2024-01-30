@@ -3,7 +3,7 @@ from subprocess import run, CalledProcessError
 from tkinter.filedialog import askopenfilename as pilih_file
 from os.path import exists
 from os import remove
-from .modul import bersihkan_layar
+from modul import bersihkan_layar
 
 #Sertifikat dalam format .der dapat diinstall oleh sistem operasi Windows
 

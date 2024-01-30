@@ -3,7 +3,7 @@ from subprocess import run, CalledProcessError
 from colorama import Fore, Back
 from os.path import exists
 from os import getcwd, remove
-from .modul import bersihkan_layar
+from modul import bersihkan_layar
 
 bersihkan_layar(f"{Fore.YELLOW}Memeriksa Instalasi OpenSSL ...{Fore.RESET}")
 try:

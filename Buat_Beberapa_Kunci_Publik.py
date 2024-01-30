@@ -3,7 +3,7 @@ from tkinter.filedialog import askopenfilename as pilih_file, asksaveasfilename 
 from colorama import Fore, Back
 from os.path import exists
 from os import remove
-from .modul import bersihkan_layar
+from modul import bersihkan_layar
 
 bersihkan_layar(f"{Fore.LIGHTYELLOW_EX}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
 try:
