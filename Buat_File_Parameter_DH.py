@@ -88,6 +88,13 @@ else:
                     pass
                 case _:
                     print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!")
+            DIGEST = input("Pilih digest [sha1 | sha224 | sha256] : ").lower().strip()
+            if DIGEST in ("sha1", "sha224", "sha256"):
+                perintah += f"-pkeyopt digest:{DIGEST} "
+            elif DIGEST == "":
+                pass
+            else:
+                print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
             indeks_g = input("Masukkan indeks untuk pembuatan kanonik dan verifikasi generator g (default = -1) [0 - 255] : ").strip()
             if indeks_g == "":
                 pass
