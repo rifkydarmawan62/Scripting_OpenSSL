@@ -6,9 +6,11 @@ from tkinter.messagebox import askyesno
 from os.path import exists
 from os import remove
 
+# Dokumentasi : https://www.openssl.org/docs/man3.2/man1/openssl-genpkey.html#DH-Parameter-Generation-Options
+
 bersihkan_layar(f"{Fore.YELLOW}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
 try:
-    run("openssl version", shell = True, check = True)
+    run("openssl version", shell = False, check = True)
 except CalledProcessError:
     print(f"{Fore.LIGHTRED_EX}Perintah OpenSSL tidak ditemukan!{Fore.RESET}")
 else:
@@ -115,7 +117,7 @@ else:
             perintah = perintah.strip()
             print(f"{Fore.YELLOW}Menjalankan perintah {Fore.LIGHTYELLOW_EX}{Back.BLUE}{perintah}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
             try:
-                run(perintah, shell = True, check = True)
+                run(perintah, shell = False, check = True)
             except CalledProcessError:
                 print(f"{Fore.LIGHTRED_EX}Gagal membuat file parameter DH!{Fore.RESET}")
                 if exists(FILE_OUTPUT):
