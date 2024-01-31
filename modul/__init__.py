@@ -15,7 +15,7 @@ def bersihkan_layar(teks : str | None = None):
         run("clear", shell = True)
     if teks:
         print(teks)
-def input_kata_sandi_untuk_parameter(dh_atau_dhx : Literal["DH", "DHX"]) -> tuple[str, str]:
+def input_kata_sandi_untuk_parameter(dh_atau_dhx : Literal["DSA", "DH", "DHX"]) -> tuple[str, str]:
     direktori_sementara, file_sementara = "", ""
     if askyesno("Konfirmasi", f"Gunakan kata sandi untuk file paramater {dh_atau_dhx}?"):
         if sistem_operasi() == "Windows":
@@ -75,6 +75,15 @@ def input_parameter_subprima_q() -> str:
             else:
                 print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
                 return ""
+def input_digest():
+    DIGEST = input("Pilih digest [sha1 | sha224 | sha256] : ").lower().strip()
+    if DIGEST in ("sha1", "sha224", "sha256"):
+        return f"-pkeyopt digest:{DIGEST} "
+    elif DIGEST == "":
+        return ""
+    else:
+        print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
+        return ""
 def input_indeks_g() -> str:
     indeks_g = input("Masukkan indeks untuk pembuatan kanonik dan verifikasi generator g (default = -1) [0 - 255] : ").strip()
     if indeks_g == "":

@@ -1,6 +1,6 @@
 from subprocess import run, CalledProcessError
 from colorama import Fore, Back
-from modul import bersihkan_layar, input_kata_sandi_untuk_parameter, input_parameter_prima_p, input_parameter_subprima_q, input_indeks_g
+from modul import bersihkan_layar, input_kata_sandi_untuk_parameter, input_parameter_prima_p, input_parameter_subprima_q, input_indeks_g, input_digest
 from tkinter.filedialog import asksaveasfilename as simpan_file
 from os.path import exists
 from os import remove
@@ -63,13 +63,7 @@ else:
                     pass
                 case _:
                     print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
-            DIGEST = input("Pilih digest [sha1 | sha224 | sha256] : ").lower().strip()
-            if DIGEST in ("sha1", "sha224", "sha256"):
-                perintah += f"-pkeyopt digest:{DIGEST} "
-            elif DIGEST == "":
-                pass
-            else:
-                print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
+            perintah += input_digest()
             perintah += input_indeks_g()
             perintah = perintah.strip()
             print(f"{Fore.YELLOW}Menjalankan perintah {Fore.LIGHTYELLOW_EX}{Back.BLUE}{perintah}{Fore.YELLOW}{Back.RESET} ...{Fore.RESET}")
