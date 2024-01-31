@@ -28,19 +28,6 @@ else:
                 pass
             else:
                 print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
-            if askyesno("Konfirmasi", "Gunakan parameter RFC5114?"):
-                PARAMETER_RFC5114 = input("Pilih parameter RFC5114 [dh_1024_160 | dh_2048_224 | dh_2048_256] : ").lower().strip()
-                match PARAMETER_RFC5114:
-                    case "dh_1024_160":
-                        perintah += "-pkeyopt dh_rfc5114:1 "
-                    case "dh_2048_224":
-                        perintah += "-pkeyopt dh_rfc5114:2 "
-                    case "dh_2048_256":
-                        perintah += "-pkeyopt dh_rfc5114:3 "
-                    case "":
-                        pass
-                    case _:
-                        print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
             parameter_prima_p = input("Masukkan nilai parameter prima p (default = 2048) : ").lower().strip()
             if parameter_prima_p == "":
                 pass
