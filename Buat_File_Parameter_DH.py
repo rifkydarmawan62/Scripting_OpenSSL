@@ -74,7 +74,10 @@ else:
                 except ValueError:
                     print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
                 else:
-                    perintah += f"-pkeyopt dh_paramgen_generator:{nilai_generator_g} "
+                    if nilai_generator_g >= 0:
+                        perintah += f"-pkeyopt dh_paramgen_generator:{nilai_generator_g} "
+                    else:
+                        print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
             TIPE = input("Pilih tipe parameter [generator | group | default] : ").lower().strip()
             if TIPE in ("generator", "group", "default"):
                 perintah += f"-pkeyopt type:\"{TIPE}\" "
