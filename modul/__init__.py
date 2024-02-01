@@ -8,6 +8,7 @@ from os.path import exists
 from os import environ, remove
 from getpass import getpass
 from typing import Literal
+from configparser import RawConfigParser
 
 def bersihkan_layar(teks : str | None = None):
     if system() == "Windows":
@@ -106,3 +107,6 @@ def hapus_file_sementara(file_sementara : str):
         print(f"{Fore.YELLOW}Menghapus file sementara ...{Fore.RESET}")
         remove(file_sementara)
         print(f"{Fore.LIGHTGREEN_EX}File sementara dihapus!{Fore.RESET}")
+class kustom_raw_konfig(RawConfigParser):
+    def optionxform(self, optionstr: str) -> str:
+        return optionstr
