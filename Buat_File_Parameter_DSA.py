@@ -22,15 +22,19 @@ else:
             perintah = f"openssl genpkey -out \"{file_output}\" -algorithm DSA -outform PEM -verbose -genparam "
             perintah_tambahan, file_sementara = input_kata_sandi_untuk_parameter("DSA")
             perintah += perintah_tambahan; del perintah_tambahan
-            try:
-                UKURAN_BIT_DSA = int(input("Masukkan ukuran bit DSA (default = 2048) [> 0] : ").strip())
-            except ValueError:
-                print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
+            ukuran_bit_dsa = input("Masukkan ukuran bit DSA (default = 2048) [>= 512] : ").strip()
+            if ukuran_bit_dsa == "":
+                pass
             else:
-                if UKURAN_BIT_DSA > 0:
-                    perintah += f"-pkeyopt dsa_paramgen_bits:{UKURAN_BIT_DSA} "
+                try:
+                    ukuran_bit_dsa = int(ukuran_bit_dsa)
+                except ValueError:
+                    print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
                 else:
-                    print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
+                    if ukuran_bit_dsa >= 512:
+                        perintah += f"-pkeyopt dsa_paramgen_bits:{ukuran_bit_dsa} "
+                    else:
+                        print(f"{Fore.LIGHTRED_EX}Input harus lebih dari atau sama dengan 512!{Fore.RESET}")
             UKURAN_BIT_PARAMETER_Q = input("Masukkan ukuran bit untuk parameter q (default = 224) [160 | 256] : ").strip()
             if UKURAN_BIT_PARAMETER_Q in ("160", "224", "256"):
                 perintah += f"-pkeyopt dsa_paramgen_q_bits:{UKURAN_BIT_PARAMETER_Q} "
