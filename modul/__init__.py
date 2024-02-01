@@ -17,9 +17,9 @@ def bersihkan_layar(teks : str | None = None):
         run("clear", shell = True)
     if teks:
         print(teks)
-def input_kata_sandi_untuk_parameter(dh_atau_dhx : Literal["DSA", "DH", "DHX"]) -> tuple[str, str]:
+def input_kata_sandi_untuk(argumen : Literal["parameter DSA", "parameter DH", "parameter DHX", "kunci private DH"]) -> tuple[str, str]:
     direktori_sementara, file_sementara = "", ""
-    if askyesno("Konfirmasi", f"Gunakan kata sandi untuk file paramater {dh_atau_dhx}?"):
+    if askyesno("Konfirmasi", f"Gunakan kata sandi untuk file {argumen}?"):
         if sistem_operasi() == "Windows":
             for kategori in environ:
                 match kategori:
@@ -151,6 +151,13 @@ def input_eksponent_publik_rsa(teks : Literal["RSA", "RSA-PSS"]):
                 return f"-pkeyopt rsa_keygen_pubexp:{nilai_eksponent} "
             else:
                 print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
+    return ""
+def pilih_group_parameter():
+    group_parameter = input("Pilih group parameter DH [ffdhe2048 | ffdhe3072 | ffdhe4096 | ffdhe6144 | ffdhe8192 | modp_1536 | modp_2048 | modp_3072 | modp_4096 | modp_6144 | modp_8192] : ").strip().lower()
+    if group_parameter in ("ffdhe2048", "ffdhe3072", "ffdhe4096", "ffdhe6144", "ffdhe8192", "modp_1536", "modp_2048", "modp_3072", "modp_4096", "modp_6144", "modp_8192"):
+        return f"-pkeyopt group:\"{group_parameter}\" "
+    elif group_parameter != "":
+        print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
     return ""
 class kustom_raw_konfig(RawConfigParser):
     def optionxform(self, optionstr: str) -> str:
