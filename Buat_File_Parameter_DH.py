@@ -1,9 +1,10 @@
 from subprocess import run, CalledProcessError
 from colorama import Fore, Back
-from modul import bersihkan_layar, input_kata_sandi_untuk_parameter, input_parameter_prima_p, input_parameter_subprima_q, input_indeks_g, input_digest
+from modul import *
 from tkinter.filedialog import asksaveasfilename as simpan_file
 from os.path import exists
 from os import remove
+from platform import system as sistem_operasi
 
 # Dokumentasi : https://www.openssl.org/docs/man3.2/man1/openssl-genpkey.html#DH-Parameter-Generation-Options
 
@@ -15,9 +16,11 @@ except CalledProcessError:
 else:
     print(f"{Fore.LIGHTBLUE_EX}Tekan Alt + Tab untuk membuka jendela baru{Fore.RESET}")
     try:
-        FILE_OUTPUT = simpan_file(title = "Pilih lokasi file parameter DH disimpan", defaultextension = ".pem", filetypes = [("Privacy Enhanced Mail", "*.pem")], initialfile = ".pem", confirmoverwrite = True)
-        if FILE_OUTPUT:
-            perintah = f"openssl genpkey -out \"{FILE_OUTPUT}\" -algorithm DH -outform PEM -genparam -verbose "
+        file_output = simpan_file(title = "Pilih lokasi file parameter DH disimpan", defaultextension = ".pem", filetypes = [("Privacy Enhanced Mail", "*.pem")], initialfile = ".pem", confirmoverwrite = True)
+        if sistem_operasi() == "Windows":
+            file_output = file_output.replace("/", "\\")
+        if file_output:
+            perintah = f"openssl genpkey -out \"{file_output}\" -algorithm DH -outform PEM -genparam -verbose "
             perintah_tambahan, file_sementara = input_kata_sandi_untuk_parameter("DH")
             perintah += perintah_tambahan; del perintah_tambahan
             PARAMETER_DH = input("Pilih parameter DH [ffdhe2048 | ffdhe3072 | ffdhe4096 | ffdhe6144 | ffdhe8192 | modp_1536 | modp_2048 | modp_3072 | modp_4096 | modp_6144 | modp_8192] : ").strip().lower()
@@ -70,18 +73,15 @@ else:
             try:
                 run(perintah, shell = False, check = True)
             except CalledProcessError:
-                print(f"{Fore.LIGHTRED_EX}Gagal membuat file parameter DH!{Fore.RESET}")
-                if exists(FILE_OUTPUT):
-                    remove(FILE_OUTPUT)
+                print(f"{Fore.LIGHTRED_EX}Gagal membuat parameter DH!{Fore.RESET}")
+                if exists(file_output):
+                    remove(file_output)
             except KeyboardInterrupt:
-                print(f"{Fore.LIGHTRED_EX}File parameter DH batal dibuat!{Fore.RESET}")
-                if exists(FILE_OUTPUT):
-                    remove(FILE_OUTPUT)
+                print(f"{Fore.LIGHTRED_EX}Parameter DH batal dibuat!{Fore.RESET}")
+                if exists(file_output):
+                    remove(file_output)
             else:
-                print(f"{Fore.LIGHTGREEN_EX}File parameter DH berhasil dibuat!{Fore.RESET}")
-            if exists(file_sementara):
-                print(f"{Fore.YELLOW}Menghapus file sementara ...")
-                remove(file_sementara)
-                print(f"{Fore.LIGHTGREEN_EX}File sementara dihapus!{Fore.RESET}")
+                print(f"{Fore.LIGHTGREEN_EX}Parameter DH berhasil dibuat!{Fore.RESET}")
+            hapus_file_sementara(file_sementara)
     except KeyboardInterrupt:
         print(f"{Fore.LIGHTRED_EX}Interupsi Ctrl + C\nProgram ditutup!{Fore.RESET}")

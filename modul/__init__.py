@@ -4,7 +4,8 @@ from colorama import Fore
 from tkinter.filedialog import askdirectory as pilih_folder
 from platform import system as sistem_operasi
 from tkinter.messagebox import askyesno
-from os import environ
+from os.path import exists
+from os import environ, remove
 from getpass import getpass
 from typing import Literal
 
@@ -100,3 +101,8 @@ def input_indeks_g() -> str:
             else:
                 print(f"{Fore.LIGHTRED_EX}Input harus dalam jangkauan -1 sampai 255!{Fore.RESET}")
                 return ""
+def hapus_file_sementara(file_sementara : str):
+    if exists(file_sementara):
+        print(f"{Fore.YELLOW}Menghapus file sementara ...{Fore.RESET}")
+        remove(file_sementara)
+        print(f"{Fore.LIGHTGREEN_EX}File sementara dihapus!{Fore.RESET}")
