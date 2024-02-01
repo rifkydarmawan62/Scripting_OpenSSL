@@ -3,7 +3,7 @@ from colorama import Fore, Back
 from subprocess import run, CalledProcessError
 from os.path import exists
 from os import remove
-from modul import bersihkan_layar
+from modul import bersihkan_layar, pilih_chiper
 from tkinter.messagebox import askyesnocancel, askyesno
 
 bersihkan_layar(f"{Fore.YELLOW}Memeriksa instalasi OpenSSL ...{Fore.RESET}")
@@ -23,11 +23,7 @@ else:
                 perintah = "openssl genrsa -f4 "
             else:
                 perintah = "openssl genrsa "
-            chiper = input("Pilih enkripsi chiper opsional [aes128 | aes192 | aes256 | camellia128 | camellia192 | camellia256 | des | des3 | idea] : ").strip().lower()
-            if chiper in ("aes128", "aes192", "aes256", "camellia128", "camellia192", "camellia256", "des", "des3", "idea"):
-                perintah += f"-{chiper} "
-            elif chiper != "":
-                print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
+            perintah += pilih_chiper()
             if askyesno("Konfirmasi jenis PKCS (Public Key Cryptography Standards)", "Gunakan format tradisional PKCS#1 bukan format PKCS#8?"):
                 perintah += "-traditional "
             perintah += f"-out \"{OUTPUT_KUNCI_PRIVATE}\" -verbose "
