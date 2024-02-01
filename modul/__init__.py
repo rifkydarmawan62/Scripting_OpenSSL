@@ -46,7 +46,7 @@ def input_kata_sandi_untuk_parameter(dh_atau_dhx : Literal["DSA", "DH", "DHX"]) 
     else:
         return "", file_sementara
 def input_parameter_prima_p() -> str:
-    parameter_prima_p = input("Masukkan nilai parameter prima p (default = 2048) : ").lower().strip()
+    parameter_prima_p = input("Masukkan nilai parameter prima p (default = 2048) [>= 512]: ").strip()
     if parameter_prima_p == "":
         return ""
     else:
@@ -56,10 +56,10 @@ def input_parameter_prima_p() -> str:
             print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
             return ""
         else:
-            if parameter_prima_p >= 0:
+            if parameter_prima_p >= 512:
                 return f"-pkeyopt dh_paramgen_prime_len:{parameter_prima_p} "
             else:
-                print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
+                print(f"{Fore.LIGHTRED_EX}Input harus lebih dari atau sama dengan 512!{Fore.RESET}")
                 return ""
 def input_parameter_subprima_q() -> str:
     parameter_subprima_q = input("Masukkan nilai parameter subprima q (default = 224) : ").lower().strip()
