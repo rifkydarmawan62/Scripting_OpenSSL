@@ -47,66 +47,111 @@ def input_kata_sandi_untuk_parameter(dh_atau_dhx : Literal["DSA", "DH", "DHX"]) 
         return "", file_sementara
 def input_parameter_prima_p() -> str:
     parameter_prima_p = input("Masukkan nilai parameter prima p (default = 2048) [>= 512]: ").strip()
-    if parameter_prima_p == "":
-        return ""
-    else:
+    if parameter_prima_p != "":
         try:
             parameter_prima_p = int(parameter_prima_p)
         except ValueError:
             print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
-            return ""
         else:
             if parameter_prima_p >= 512:
                 return f"-pkeyopt dh_paramgen_prime_len:{parameter_prima_p} "
             else:
                 print(f"{Fore.LIGHTRED_EX}Input harus lebih dari atau sama dengan 512!{Fore.RESET}")
-                return ""
+    return ""
 def input_parameter_subprima_q() -> str:
     parameter_subprima_q = input("Masukkan nilai parameter subprima q (default = 224) : ").lower().strip()
-    if parameter_subprima_q == "":
-        return ""
-    else:
+    if parameter_subprima_q != "":
         try:
             parameter_subprima_q = int(parameter_subprima_q)
         except ValueError:
             print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
-            return ""
         else:
             if parameter_subprima_q >= 0:
                 return f"-pkeyopt dh_paramgen_subprime_len:{parameter_subprima_q} "
             else:
                 print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
-                return ""
-def input_digest():
-    DIGEST = input("Pilih digest [sha1 | sha224 | sha256] : ").lower().strip()
-    if DIGEST in ("sha1", "sha224", "sha256"):
-        return f"-pkeyopt digest:{DIGEST} "
-    elif DIGEST == "":
-        return ""
+    return ""
+def input_digest(teks : None | Literal["RSA-PSS", "RSA-PSS untuk parameter MGF1"] = None):
+    if teks == None:
+        DIGEST = input("Pilih digest [sha1 | sha224 | sha256] : ").lower().strip()
+        if DIGEST in ("sha1", "sha224", "sha256"):
+            return f"-pkeyopt digest:{DIGEST} "
+        elif DIGEST != "":
+            print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
     else:
-        print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
-        return ""
+        DIGEST = input(f"{Fore.LIGHTRED_EX}*{Fore.RESET}Pilih digest {teks} (blake2b512 | blake2s256 | md4 | md5 | md5-sha1 | mdc2 | ripemd | ripemd160 | rmd160 | sha1 | sha224 | sha256 | sha3-224 | sha3-256 | sha3-384 | sha3-512 | sha384 | sha512 | sha512-224 | sha512-256 | shake128 | shake256 | sm3 | ssl3-md5 | ssl3-sha1 | whirlpool)").strip().lower()
+        if DIGEST in ("blake2b512", "blake2s256", "md4", "md5", "md5-sha1", "mdc2", "ripemd", "ripemd160", "rmd160", "sha1", "sha224", "sha256", "sha3-224", "sha3-256", "sha3-384", "sha3-512", "sha384", "sha512", "sha512-224", "sha512-256", "shake128", "shake256", "sm3", "ssl3-md5", "ssl3-sha1", "whirlpool"):
+            if teks == "RSA-PSS":
+                return f"-pkeyopt rsa_pss_keygen_md:{DIGEST} "
+            else:
+                return f"-pkeyopt rsa_keygen_mgf1_md:{DIGEST} "
+        elif DIGEST != "":
+            print(f"{Fore.LIGHTRED_EX}Digest Tidak Valid!{Fore.RESET}")
+    return ""
 def input_indeks_g() -> str:
     indeks_g = input("Masukkan indeks untuk pembuatan kanonik dan verifikasi generator g (default = -1) [0 - 255] : ").strip()
-    if indeks_g == "":
-        return ""
-    else:
+    if indeks_g != "":
         try:
             indeks_g = int(indeks_g)
         except ValueError:
             print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
-            return ""
         else:
             if indeks_g >= -1 and indeks_g <= 255:
                 return f"-pkeyopt gindex:{indeks_g} "
             else:
                 print(f"{Fore.LIGHTRED_EX}Input harus dalam jangkauan -1 sampai 255!{Fore.RESET}")
-                return ""
+    return ""
 def hapus_file_sementara(file_sementara : str):
     if exists(file_sementara):
         print(f"{Fore.YELLOW}Menghapus file sementara ...{Fore.RESET}")
         remove(file_sementara)
         print(f"{Fore.LIGHTGREEN_EX}File sementara dihapus!{Fore.RESET}")
+def pilih_chiper():
+    chiper = input("Pilih enkripsi chiper opsional [aes128 | aes192 | aes256 | camellia128 | camellia192 | camellia256 | des | des3 | idea] : ").strip().lower()
+    if chiper in ("aes128", "aes192", "aes256", "camellia128", "camellia192", "camellia256", "des", "des3", "idea"):
+        return f"-{chiper} "
+    elif chiper != "":
+        print(f"{Fore.LIGHTRED_EX}Input Tidak Valid!{Fore.RESET}")
+    return ""
+def input_bit_rsa(teks : Literal["RSA", "RSA-PSS"]):
+    ukuran_bit = input(f"Masukkan ukuran bit {teks} (default = 2048) : ").strip()
+    if ukuran_bit != "":
+        try:
+            ukuran_bit = int(ukuran_bit)
+        except ValueError:
+            print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
+        else:
+            if ukuran_bit >= 512:
+                return f"-pkeyopt rsa_keygen_bits:{ukuran_bit} "
+            else:
+                print(f"{Fore.LIGHTRED_EX}Input harus lebih dari atau sama dengan 512!{Fore.RESET}")
+    return ""
+def input_prima_rsa(teks : Literal["RSA", "RSA-PSS"]):
+    nilai_prima = input(f"Masukkan nilai prima {teks} (default = 2) : ").strip()
+    if nilai_prima != "":
+        try:
+            nilai_prima = int(nilai_prima)
+        except ValueError:
+            print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
+        else:
+            if nilai_prima >= 0:
+                return f"-pkeyopt rsa_keygen_primes:{nilai_prima} "
+            else:
+                print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
+    return ""
+def input_eksponent_publik_rsa(teks : Literal["RSA", "RSA-PSS"]):
+    nilai_eksponent = input(f"Masukkan nilai eksponen publik {teks} (default = 65537) : ").strip()
+    if nilai_eksponent != "":
+        try:
+            nilai_eksponent = int(nilai_eksponent)
+        except ValueError:
+            print(f"{Fore.LIGHTRED_EX}Input harus berupa angka!{Fore.RESET}")
+        else:
+            if nilai_eksponent >= 0:
+                return f"-pkeyopt rsa_keygen_pubexp:{nilai_eksponent} "
+            else:
+                print(f"{Fore.LIGHTRED_EX}Input tidak boleh bilangan negatif!{Fore.RESET}")
+    return ""
 class kustom_raw_konfig(RawConfigParser):
     def optionxform(self, optionstr: str) -> str:
         return optionstr
